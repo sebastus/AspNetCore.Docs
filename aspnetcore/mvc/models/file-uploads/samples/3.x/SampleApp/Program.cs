@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace SampleApp
 {
@@ -19,7 +15,17 @@ namespace SampleApp
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("https://localhost:5001/;http://localhost:5000/")
+                        .ConfigureKestrel(serverOptions =>
+                        {
+                            serverOptions.Listen(IPAddress.Parse("0.0.0.0"), 5000);
+                            serverOptions.Listen(IPAddress.Parse("0.0.0.0"), 5001,
+                                listenOptions =>
+                                {
+                                    listenOptions.UseHttps("golive.pfx", "TJ&F[3=0wp=,1<ECHKna");
+                                });
+                        })
+                        .UseStartup<Startup>();
                 });
     }
 }
