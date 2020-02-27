@@ -17,6 +17,8 @@ FROM build AS publish
 RUN dotnet publish "SampleApp.csproj" -c Release -o /app/publish
 
 FROM base AS final
+RUN mkdir /files
+RUN chmod 664 /files
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SampleApp.dll"]
