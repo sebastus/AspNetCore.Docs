@@ -21,4 +21,5 @@ RUN mkdir /files
 RUN chmod 664 /files
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY golive.pfx .
 ENTRYPOINT ["dotnet", "SampleApp.dll"]
