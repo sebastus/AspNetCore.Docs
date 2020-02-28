@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IO;
 
 namespace SampleApp
@@ -14,6 +15,8 @@ namespace SampleApp
             {
                 certPassword = sr.ReadToEnd();
             }
+            Console.WriteLine($"The cert password is: {certPassword}");
+
             CreateHostBuilder(args).Build().Run();
         }
 
