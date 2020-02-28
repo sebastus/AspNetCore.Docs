@@ -31,7 +31,7 @@ namespace SampleApp
                             serverOptions.ListenAnyIP(5001, listenOptions =>
                             {
                                 Console.WriteLine($"The cert password is: {certPassword}");
-                                listenOptions.UseHttps("/certvol/golive.pfx", "TJ&F[3=0wp=,1<ECHKna");
+                                listenOptions.UseHttps("/certvol/golive.pfx", certPassword);
                             });
                         });
                 });
