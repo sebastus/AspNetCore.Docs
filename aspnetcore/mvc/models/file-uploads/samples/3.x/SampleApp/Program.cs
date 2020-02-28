@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using System.Net;
 using System.IO;
-using Microsoft.Extensions.Configuration;
 
 namespace SampleApp
 {
     public class Program
     {
+        private static string certPassword { get; set; }
+
         public static void Main(string[] args)
         {
+            using (var sr = new StreamReader("/kvmnt/CertPassword"))
+            {
+                certPassword = sr.ReadToEnd();
+            }
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -17,7 +21,15 @@ namespace SampleApp
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .ConfigureKestrel(serverOptions =>
+                        {
+                            serverOptions.ListenAnyIP(5001, listenOptions =>
+                            {
+                                listenOptions.UseHttps("/certvol/golive.pfx", certPassword);
+                            });
+                        });
                 });
     }
 }

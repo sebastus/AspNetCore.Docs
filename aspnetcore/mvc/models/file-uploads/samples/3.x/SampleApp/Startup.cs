@@ -78,5 +78,7 @@ namespace SampleApp
                 endpoints.MapRazorPages();
             });
         }
+
+
     }
 }
