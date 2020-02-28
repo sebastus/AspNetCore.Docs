@@ -17,9 +17,11 @@ FROM build AS publish
 RUN dotnet publish "SampleApp.csproj" -c Release -o /app/publish
 
 FROM base AS final
-RUN mkdir /files
-RUN chmod 664 /files
+RUN mkdir /files && \
+    chmod 664 /files && \
+    mkdir /cert && \
+    chmod 664 /cert
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY golive.pfx .
+COPY golive.pfx /cert
 ENTRYPOINT ["dotnet", "SampleApp.dll"]
