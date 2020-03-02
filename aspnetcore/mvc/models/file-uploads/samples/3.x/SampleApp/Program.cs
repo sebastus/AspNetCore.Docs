@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 
@@ -7,10 +8,18 @@ namespace SampleApp
     public class Program
     {
         private static string certPassword { get; set; }
+        private static string certLocation { get; set; }
 
         public static void Main(string[] args)
         {
-            using (var sr = new StreamReader("/kvmnt/CertPassword"))
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appSettings.json", optional: false)
+                .Build();
+            var certPasswordLocation = config.GetValue<string>("CertPasswordLocation");
+            certLocation = config.GetValue<string>("CertLocation");
+
+            using (var sr = new StreamReader(certPasswordLocation))
             {
                 certPassword = sr.ReadToEnd();
             }
@@ -28,7 +37,7 @@ namespace SampleApp
                         {
                             serverOptions.ListenAnyIP(5001, listenOptions =>
                             {
-                                listenOptions.UseHttps("/certvol/golive.pfx", certPassword);
+                                listenOptions.UseHttps(certLocation, certPassword);
                             });
                         });
                 });
