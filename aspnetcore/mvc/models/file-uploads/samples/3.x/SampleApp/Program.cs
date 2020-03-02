@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.IO;
 
 namespace SampleApp
@@ -15,7 +14,6 @@ namespace SampleApp
             {
                 certPassword = sr.ReadToEnd();
             }
-            Console.WriteLine($"The cert password is: {certPassword}");
 
             CreateHostBuilder(args).Build().Run();
         }
@@ -30,10 +28,10 @@ namespace SampleApp
                         {
                             serverOptions.ListenAnyIP(5001, listenOptions =>
                             {
-                                Console.WriteLine($"The cert password is: {certPassword}");
                                 listenOptions.UseHttps("/certvol/golive.pfx", certPassword);
                             });
                         });
                 });
     }
+
 }
