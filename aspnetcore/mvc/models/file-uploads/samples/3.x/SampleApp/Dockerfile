@@ -26,5 +26,4 @@ RUN mkdir /files && \
 
 COPY --from=publish /app/publish .
 
-#ENTRYPOINT ["dotnet", "SampleApp.dll"]
-ENTRYPOINT [ "/bin/bash" ]
+ENTRYPOINT ["dotnet", "SampleApp.dll"]
