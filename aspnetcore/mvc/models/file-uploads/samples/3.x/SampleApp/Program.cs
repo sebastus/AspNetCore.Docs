@@ -45,7 +45,7 @@ namespace SampleApp
                         .UseStartup<Startup>()
                         .ConfigureKestrel(serverOptions =>
                         {
-                            serverOptions.ListenAnyIP(5001, listenOptions =>
+                            serverOptions.ListenAnyIP(443, listenOptions =>
                             {
                                 listenOptions.UseHttps("/certvol/golive.pfx", certPassword);
                             });
