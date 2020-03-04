@@ -19,7 +19,8 @@ namespace SampleApp
             {
                 var config = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appSettings.json", optional: false)
+                    .AddJsonFile("appSettings.json", optional: true)
+                    .AddJsonFile("appsettings.json", optional: true)
                     .Build();
                 var certPasswordLocation = config.GetValue<string>("CertPasswordLocation");
                 certLocation = config.GetValue<string>("CertLocation");
