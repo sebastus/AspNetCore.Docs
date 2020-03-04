@@ -13,21 +13,25 @@ namespace SampleApp
 
         public static void Main(string[] args)
         {
-            certPassword = "xyzzy";
-
             try
             {
                 var config = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appSettings.json", optional: true)
-                    .AddJsonFile("appsettings.json", optional: true)
+                    .AddJsonFile("appSettings.json", optional: false)
                     .Build();
-                var certPasswordLocation = config.GetValue<string>("CertPasswordLocation");
-                certLocation = config.GetValue<string>("CertLocation");
 
+                var certPasswordLocation = config.GetValue<string>("CertPasswordLocation");
                 using (var sr = new StreamReader(certPasswordLocation))
                 {
                     certPassword = sr.ReadToEnd();
+                }
+
+                certLocation = config.GetValue<string>("CertLocation");
+
+                var filesLocation = config.GetValue<string>("StoredFilesPath");
+                if (!Directory.Exists(filesLocation))
+                {
+                    Directory.CreateDirectory(filesLocation);
                 }
             }
             catch (Exception ex)
