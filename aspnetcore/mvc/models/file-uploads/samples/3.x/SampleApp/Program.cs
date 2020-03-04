@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System;
 
 namespace SampleApp
 {
@@ -12,16 +13,25 @@ namespace SampleApp
 
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appSettings.json", optional: false)
-                .Build();
-            var certPasswordLocation = config.GetValue<string>("CertPasswordLocation");
-            certLocation = config.GetValue<string>("CertLocation");
+            certPassword = "xyzzy";
 
-            using (var sr = new StreamReader(certPasswordLocation))
+            try
             {
-                certPassword = sr.ReadToEnd();
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appSettings.json", optional: false)
+                    .Build();
+                var certPasswordLocation = config.GetValue<string>("CertPasswordLocation");
+                certLocation = config.GetValue<string>("CertLocation");
+
+                using (var sr = new StreamReader(certPasswordLocation))
+                {
+                    certPassword = sr.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting configuration: {ex.Message}");
             }
 
             CreateHostBuilder(args).Build().Run();
