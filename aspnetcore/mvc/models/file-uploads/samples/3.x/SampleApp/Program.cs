@@ -27,8 +27,11 @@ namespace SampleApp
                 }
 
                 certLocation = config.GetValue<string>("CertLocation");
+                Console.WriteLine($"cert location is: {certLocation}");
 
                 var filesLocation = config.GetValue<string>("StoredFilesPath");
+                Console.WriteLine($"files location is: {filesLocation}");
+
                 if (!Directory.Exists(filesLocation))
                 {
                     Directory.CreateDirectory(filesLocation);
