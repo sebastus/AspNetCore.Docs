@@ -47,7 +47,7 @@ namespace SampleApp
                         {
                             serverOptions.ListenAnyIP(443, listenOptions =>
                             {
-                                listenOptions.UseHttps("/certvol/golive.pfx", certPassword);
+                                listenOptions.UseHttps("/state/certvol/golive.pfx", certPassword);
                             });
                         });
                 });
