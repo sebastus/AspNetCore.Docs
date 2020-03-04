@@ -40,9 +40,18 @@ namespace SampleApp
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting configuration: {ex.Message}");
+                throw;
             }
 
-            CreateHostBuilder(args).Build().Run();
+            try 
+            {
+                CreateHostBuilder(args).Build().Run();
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating host builder: {ex.Message}");
+                throw;
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
